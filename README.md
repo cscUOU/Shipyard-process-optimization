@@ -31,7 +31,7 @@ $ pip install -r requirements.txt
 </p>
 </div>
 
-<div align="center">공정 스케줄링 최적화</div>
+<div align="center">공정 스케줄링 최적화 알고리즘</div>
 
 <details>
 <summary>Description</summary>
