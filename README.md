@@ -16,7 +16,7 @@
 Python 3.8 버전 필요 다른 버전 X
 
 ```bash
-$ git clone https://github.com/cscUOU/Shipyard-process-logistics-optimization.git
+$ git clone https://github.com/cscUOU/Shipyard-process-optimization.git
 $ cd Shipyard-process-logistics-optimization
 $ pip install -r requirements.txt
 ```
