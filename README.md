@@ -1,7 +1,7 @@
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="850" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard.png"></a>
+   <img width="850" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard.png"></a>
 </p>
 </div>
 <br>
@@ -27,7 +27,7 @@ $ pip install -r requirements.txt
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard1.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard1.png"></a>
 </p>
 </div>
 
@@ -43,7 +43,7 @@ $ pip install -r requirements.txt
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard2.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard2.png"></a>
 </p>
 </div>
 
@@ -93,7 +93,7 @@ temp_f = base_pop.getfitness(work_time=task_work_time, empty_time=task_empty_tim
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard3.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard3.png"></a>
 </p>
 </div>
 
