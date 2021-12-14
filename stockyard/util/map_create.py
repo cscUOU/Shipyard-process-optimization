@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import copy
-from stockyard.util import weight
+from util import weight
 
 
 class Map:

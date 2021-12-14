@@ -2,8 +2,8 @@ import random
 import pandas as pd
 import copy
 import math
-from stockyard.util import weight, check_maze, maze, order
-from stockyard.util.process import erase_map, trans_data, draw_map
+from util import weight, check_maze, maze, order
+
 
 def insert(block, map1, weight_map, count, area, df, flag, i, branch):
     # print("반입 함수")
@@ -41,7 +41,7 @@ def insert(block, map1, weight_map, count, area, df, flag, i, branch):
     # print("나중에 출고되는 블록", x_axis_block_num_2)
     # print("전에 출고되는 블록", x_axis_block_num_4)
 
-    if x_axis_block_num_4:
+    if x_axis_block_num_4: # 4사분면 마지막 블록번호
         continue_block = max(y_axis_list_4)
         continue_block = y_axis.index(continue_block)
         continue_block = x_axis[continue_block]
@@ -85,13 +85,17 @@ def insert(block, map1, weight_map, count, area, df, flag, i, branch):
 
     if pre_weight:  # 고려해야하는 가중치 값 존재하면
         weight_list = [i for i in weight_list if i <= pre_weight]  # pre_weight 보다 낮은 값들만 사용하는 리스트
+    else:
+        weight_list = []
     # print("고려 가중치", pre_weight)
     # print("가중치 리스트", weight_list)
+    
     if weight_list:  # 2사분면 고려
         max_weight = max(weight_list)
-        choice_list = [i for i, value in enumerate(weight_list) if value == max_weight]
-        choice = random.choice(choice_list)
-        insert_loc = pos_loc[choice]  # 가중치 합이 제일 높은 곳에 반입
+        insert_loc = pos_loc[weight_list.index(max_weight)]  # 가중치 합이 제일 높은 곳에 반입
+        # choice_list = [i for i, value in enumerate(weight_list) if value == max_weight]
+        # choice = random.choice(choice_list)
+        # insert_loc = pos_loc[choice] # 랜덤 반입
     else:  # weight list 가 없을 때
         insert_loc = random.choice(pos_loc)
         max_weight = weight_map[insert_loc[0]:insert_loc[0] + height, insert_loc[1]:insert_loc[1] + width].mean()
@@ -121,9 +125,10 @@ def insert(block, map1, weight_map, count, area, df, flag, i, branch):
         map2 = copy.deepcopy(map1)
 
         curr = step + 1
-
+        quad_4_block_num = []
         while True:
             task = copy_df.loc[curr]
+            quad_4_block_num.append(task.block_number)
             if task.type == 1:
                 _ = insert(task, map2, weight_map, 0, 0, copy_df, flag, curr, branch)
             if task.type == 2:
@@ -133,7 +138,13 @@ def insert(block, map1, weight_map, count, area, df, flag, i, branch):
                 break
             #################################################################
             # 미리한번 돌림
-        min_weight = copy_df[copy_df.block_number == exit_point]['weight_val'].values[0]
+        # min_weight = copy_df[copy_df.block_number == exit_point]['weight_val'].values[0] # 이건 마지막 거리 이용
+        min_weight_list = [copy_df[copy_df.block_number == i]['weight_val'].values[0] for i in quad_4_block_num]
+        min_weight = max(min_weight_list) # 4사분면 블록중 가장 높은 최단거리 (이보다 안에 있어야함)
+        # print(quad_4_block_num)
+        # print(min_weight_list)
+        # print(min_weight)
+        
         # print(min_weight)
         # print(pre_weight)
         # print(weight_list)
@@ -141,17 +152,15 @@ def insert(block, map1, weight_map, count, area, df, flag, i, branch):
         map1.map_color[insert_loc[0]:insert_loc[0] + height, insert_loc[1]:insert_loc[1] + width] = 0
 
         if min_weight:
-            # TODO 이것도
             weight_list = [i for i in weight_list if min_weight <= i if max_weight >= i]
             # print(weight_list)
             # print("change", weight_list)
             if weight_list:  # 4사분면
-                # TODO 매우 중요함 생각해
-                min_weight = random.choice(weight_list)
-                choice_list = [i for i, value in enumerate(weight_list) if value == min_weight]
-                # print(choice_list)
-                choice = random.choice(choice_list)
-                insert_loc = pos_loc[choice]  # 가중치 합이 제일 낮은 곳에 반입
+                max_weight = max(weight_list)
+                insert_loc = pos_loc[weight_list.index(max_weight)]  # 가중치 합이 제일 높은 곳에 반입
+                # choice_list = [i for i, value in enumerate(weight_list) if value == max_weight]
+                # choice = random.choice(choice_list)
+                # insert_loc = pos_loc[choice] # 랜덤 반입
             else:  # weight list 가 없을 때
                 insert_loc = random.choice(pos_loc)
                 min_weight = weight_map[insert_loc[0]:insert_loc[0] + height, insert_loc[1]:insert_loc[1] + width].mean()
@@ -459,3 +468,25 @@ def find_out(block_list, block, flag, map, num_map):
             break
 
     return obstruct_block_list
+
+
+def trans_data(block):
+    width = block['width']  # 가로 길이
+    height = block['height']  # 세로 길이
+    x = block['position_x']
+    y = block['position_y']
+
+    return width, height, int(x), int(y)
+
+
+def draw_map(block, map):
+    width, height, x, y = trans_data(block)
+    random_num = random.randint(50, 255)
+    map.map[y:y + height, x:x + width] = 1
+    map.map_color[y:y + height, x:x + width] = random_num
+
+
+def erase_map(block, map):
+    width, height, x, y = trans_data(block)
+    map.map[y:y + height, x:x + width] = 0
+    map.map_color[y:y + height, x:x + width] = 0

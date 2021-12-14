@@ -3,16 +3,16 @@ import copy
 import random
 import matplotlib.pyplot as plt
 import pandas as pd
-from stockyard.method import inout_2quad, inout_random, inout_depth, \
+from method import inout_2quad, inout_random, inout_depth, \
     inout_4quad
-from stockyard.util import schedule, weight, plot, map_create
+from util import schedule, weight, plot, map_create
 import argparse
 from tqdm import tqdm
 
 
 pd.set_option('display.max_rows', 500)
 
-SEED = 3
+SEED = 6
 random.seed(SEED)
 np.random.seed(SEED)
 # numpy 옵션
@@ -281,7 +281,9 @@ def sota(epoch=None, params=None, flag=None, methods=None):
 
     print("start")
     for i, param in enumerate(params):
+        print('반복 횟수 {}'.format(epoch))
         print('블록 파라미터{}'.format(param))
+        print('입구{}'.format(flag))
         ax = fig.add_subplot(1, len(params), i + 1)
         stockyard1(ax, param, epoch, flag, methods)
 
