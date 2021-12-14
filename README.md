@@ -1,7 +1,7 @@
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="850" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard.png"></a>
+   <img width="850" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard.png"></a>
 </p>
 </div>
 <br>
@@ -13,10 +13,10 @@
 <details open>
 <summary>Install</summary>
 
-Python 3.8 버전 필요 다른 버전 X
+Python 3.8.3 버전 필요합니다.
 
 ```bash
-$ git clone https://github.com/cscUOU/Shipyard-process-optimization.git
+$ git clone https://github.com/cscUOU/Shipyard-process-logistics-optimization.git
 $ cd Shipyard-process-logistics-optimization
 $ pip install -r requirements.txt
 ```
@@ -27,11 +27,11 @@ $ pip install -r requirements.txt
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard1.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard1.png"></a>
 </p>
 </div>
 
-<div align="center">공정 스케줄링 최적화 알고리즘</div>
+<div align="center">공정 스케줄링 최적화</div>
 
 <details>
 <summary>Description</summary>
@@ -43,7 +43,7 @@ $ pip install -r requirements.txt
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard2.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard2.png"></a>
 </p>
 </div>
 
@@ -93,7 +93,7 @@ temp_f = base_pop.getfitness(work_time=task_work_time, empty_time=task_empty_tim
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard3.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics-optimization/blob/main/images/shipyard3.png"></a>
 </p>
 </div>
 
@@ -116,11 +116,11 @@ temp_f = base_pop.getfitness(work_time=task_work_time, empty_time=task_empty_tim
     * 랜덤, 깊이우선, 2사분면, 4사분면
 
 <details open>
-<summary>Example</summary>
+<summary>Example(main.py)</summary>
 
 ```python
-from shipyard.stockyard import generator
-from shipyard.stockyard import evaluate
+import generator
+import evaluate
 
 # 맵 정보 - [적치장 가로 길이, 적치장 수직 길이, 블록 가로 크기, 블록 세로 크기, 기적치 블록 개수, 입고 블록 개수, 출고 블록 개수]
 map_inf = [20,20,3,7,0,100,100]
@@ -139,10 +139,10 @@ insert_cnt, out_cnt = evaluate.evaluate(modify_df, new_map, flag)
 </details>
 
 <details open>
-<summary>SOTA</summary>
+<summary>SOTA(sota.py)</summary>
 
 ```python
-from shipyard.stockyard import stockyard
+import stockyard
 #inital value
 #epoch = 10, params = [[20, 20, 3, 7, 0, 100, 100]], flag = [True,True,True,True], methods = ['random']
 
