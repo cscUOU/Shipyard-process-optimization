@@ -119,21 +119,21 @@ temp_f = base_pop.getfitness(work_time=task_work_time, empty_time=task_empty_tim
 <summary>Example(main.py)</summary>
 
 ```python
-import generator
-import evaluate
+from generator import generator
+from evaluate import evaluate
 
 # 맵 정보 - [적치장 가로 길이, 적치장 수직 길이, 블록 가로 크기, 블록 세로 크기, 기적치 블록 개수, 입고 블록 개수, 출고 블록 개수]
 map_inf = [20,20,3,7,0,100,100]
 # 출입구 - [위, 아래, 왼쪽, 오른쪽]
 entrance = [True,True,True,True]
 
-new_map, new_df = generator.generator(map_inf, entrance)
+new_map, new_df = generator(map_inf, entrance)
 
 ###
 modify_schdule
 ###
 
-insert_cnt, out_cnt = evaluate.evaluate(modify_df, new_map, flag)
+insert_cnt, out_cnt = evaluate(modify_df, new_map, flag)
 ```
 
 </details>
