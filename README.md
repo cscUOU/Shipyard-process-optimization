@@ -36,6 +36,68 @@ $ pip install -r requirements.txt
 <details>
 <summary>Description</summary>
 
+* 목적 - 컨베이어 환경에서 작업물 투입 순서 최적화를 통한 전체 작업 시간 최소화
+
+	
+* generate_worklist(n_work, n_process) : 작업물 리스트 생성
+  * 매개변수
+    * n_work : 작업물 개수
+    * n_process : 공정 개수
+  * 반환
+    * works : 작업물 리스트
+    * works_type : 작업물 종류
+	
+* unidev_search(works) : 작업물 투입 순서 최적화 - unidev 탐색
+  * 매개변수
+    * works : 작업물 리스트
+  * 반환
+    * works : 투입 순서가 최적화된 작업물 리스트
+    * logs : 최적화 결과 [최적화된 작업 시간, 총 반복 횟수, 총 처리 시간, 유효 탐색 횟수, best 반복 횟수, best 처리 시간, [교체대상1 선정 처리 시간, 교체대상2 선정 처리 시간, 교체 처리 시간]]
+
+* random_bubble_search(works) : 작업물 투입 순서 최적화 - random_bubble 탐색
+  * 매개변수
+    * works : 작업물 리스트
+  * 반환
+    * works : 투입 순서가 최적화된 작업물 리스트
+    * logs : 최적화 결과 [최적화된 작업 시간, 총 반복 횟수, 총 처리 시간, 유효 탐색 횟수, best 반복 횟수, best 처리 시간, [교체대상1 선정 처리 시간, 교체대상2 선정 처리 시간, 교체 처리 시간]]
+	
+* cal_works_time(works) : 작업물 리스트의 전체 작업 시간
+  * 매개변수
+    * works : 작업물 리스트
+  * 반환
+    * time : 전체 작업 시간
+	
+<details open>
+<summary>Example(example_conveyor.py)</summary>
+
+```python
+import random
+
+import numpy as np
+
+from conveyor.conveyor import *
+from conveyor.method import *
+from conveyor.util import *
+
+RANDOM_SEED = 15
+random.seed(RANDOM_SEED)
+np.random.seed(RANDOM_SEED)
+
+if __name__ == "__main__":
+	n_work = 10 # 10, 50, 100, 200, 400
+	n_process = 6 # 6, 10, 20
+
+        #
+        works, works_type = generate_worklist(n_work, n_process)
+	random.shuffle(works)
+
+        works, logs = unidev_search(works)
+
+        performance = cal_works_time(works)
+```
+
+</details>
+	
 </details>
 
 ------------
