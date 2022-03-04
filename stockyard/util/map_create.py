@@ -131,7 +131,7 @@ class Block:
             # max_x_position = map.x_size - self.width - side_size
             max_y_position = map.y_size - self.height  # 출입구 오른쪽 한쪽만 가정
             # max_y_position = map.y_size - self.height - side_size
-
+            # TODO initialize code refactoring
             if count > 100:  # 제일 안에 배치하는게 빡세면 그만
                 if position_x is not None:
                     if position_x > max_x_position:

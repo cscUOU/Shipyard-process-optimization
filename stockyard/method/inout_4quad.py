@@ -476,7 +476,7 @@ def trans_data(block):
     x = block['position_x']
     y = block['position_y']
 
-    return width, height, int(x), int(y)
+    return int(width), int(height), int(x), int(y)
 
 
 def draw_map(block, map):

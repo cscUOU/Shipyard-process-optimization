@@ -83,13 +83,7 @@ def out(block, map1, count, flag, df, curr):
 
     # 비용증가
     if no_out:
-        # print("드가자 ")
-        # print(num_map)
-        # before = test_map.cv2_map()
-        # before = cv2.resize(before, (600, 600), interpolation=cv2.INTER_NEAREST)
-        # cv2.namedWindow('before', cv2.WINDOW_NORMAL)
-        # cv2.imshow('before', before)
-        # cv2.waitKey(0)
+
         obstruct_block_index = None
 
         obstruct_block = find_out(test_map.data, block, flag, test_map, num_map)
@@ -97,27 +91,7 @@ def out(block, map1, count, flag, df, curr):
         if block.block_number in obstruct_block:
             obstruct_block.remove(block.block_number)
 
-        # TODO 간섭 블록 어떻게 할지만 정해주면 됨
         for x in obstruct_block:
-
-            # # 데이터 프레임 추가
-            # print('현재 인덱스{}'.format(curr))
-            # print('간섭블록{}'.format(x))
-            # print(df)
-            # temp = df.loc[df.block_number == x]
-            # print(temp)
-            # temp = temp.iloc[-1]
-            # temp['date'] = df.loc[curr]['date']
-            # temp['type'] = 1
-            # temp1 = df[df.index <= curr]
-            # temp2 = df[df.index > curr]
-            # df = temp1.append(temp, ignore_index=True).append(temp2, ignore_index=True)
-            # df.loc[curr + 1] = temp
-            # print(df)
-            # print("자 드가자", x)
-            # print('현재 인덱스{}'.format(curr))
-            # print('간섭블록{}'.format(x))
-            # order.order(df)
             # 데이터 삭제
             for index, j in enumerate(map1.data):  # 블록 데이터 pop
                 if j['block_number'] == x:
@@ -133,19 +107,15 @@ def out(block, map1, count, flag, df, curr):
             df = pd.concat([temp1, temp], axis=0, ignore_index=True)
             df = pd.concat([df, temp2], axis=0, ignore_index=True)
 
-            # print(map1.block_num_map())
             map1.data.pop(obstruct_block_index)
 
             erase_map(erase, map1)
-
-            # order.order(df)
 
         count += len(obstruct_block)
 
     else:
         pass
 
-    # map1.data.pop(curr_block_index)
     erase_map(block, map1)
 
     return count, df
@@ -220,17 +190,8 @@ def find_out(block_list, block, flag, map, num_map):
         # can_out_block_list.append(can_out_block)
 
         if no_out:
-            # print(num_map)
-            # before = map1.cv2_map()
-            # before = cv2.resize(before, (600, 600), interpolation=cv2.INTER_NEAREST)
-            # cv2.namedWindow('before', cv2.WINDOW_NORMAL)
-            # cv2.imshow('before', before)
-            # cv2.waitKey(0)
             # block list 업데이트
             block_list = cant_out_block
-            # print(block_list)
-            # print(can_out_block)
-            # print(df)
             # 블록들 제거
             for num, i in enumerate(can_out_block):
                 for index, j in enumerate(map1.data):  # 블록 데이터 pop
@@ -266,16 +227,7 @@ def find_out(block_list, block, flag, map, num_map):
 
                 draw_map(i, map1)
 
-            # # 블록들 제거
-            # for num, i in enumerate(can_out_block):
-            #     for index, j in enumerate(map1.data):  # 블록 데이터 pop
-            #         if j['block_number'] == i['block_number']:
-            #             map1.data.pop(index)
-
             num_map = map1.block_num_map()
-            # print(obstruct_dict)
-            # print(block)
-            # input()
 
         else:
             width, height, x, y = trans_data(block)
@@ -294,7 +246,6 @@ def find_out(block_list, block, flag, map, num_map):
                 else:
                     pass
 
-            # print(obstruct_block_list)
             break
 
     return obstruct_block_list

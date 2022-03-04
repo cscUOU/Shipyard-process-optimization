@@ -281,9 +281,10 @@ def sota(epoch=None, params=None, flag=None, methods=None):
 
     print("start")
     for i, param in enumerate(params):
-        print('반복 횟수 {}'.format(epoch))
-        print('블록 파라미터{}'.format(param))
-        print('입구{}'.format(flag))
+        print('epoch {}'.format(epoch))
+        print('param{}'.format(param))
+        print('methods{}'.format(methods))
+        print('flag{}'.format(flag))
         ax = fig.add_subplot(1, len(params), i + 1)
         stockyard1(ax, param, epoch, flag, methods)
 
