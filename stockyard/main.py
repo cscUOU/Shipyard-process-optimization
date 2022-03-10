@@ -12,7 +12,7 @@ np.random.seed(SEED)
 # numpy 옵션
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
-params = [20,20,3,7,0,100,100]
+params = [[20, 30, 3, 7, 0, 200, 200]]
 flag = [True,True,True,True]
 
 new_map, new_df = generator(params, flag)

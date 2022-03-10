@@ -1,4 +1,4 @@
-from stockyard.util import schedule, weight, map_create
+from util import schedule, weight, map_create
 
 # params [20, 20, 3, 7, 0, 100, 100] [적치장 가로 세로 , 블록 사이즈 범위, 기 적치 블록, 입고 블록 수, 출고 블록 수]
 # flag = [True, True, True, True] [출입구 지정 위쪽, 왼쪽, 오른쪽, 아래쪽]
@@ -10,7 +10,7 @@ def generator(params, flag):
     stockyard_list = []
 
     # 적치장 생성
-    new_map = map_create.Map(params[0], params[1], flag)
+    new_map = map_create.Map(params[0], params[1])
 
     # weight 맵 생성
     weight_map = weight.create_weight(new_map.x_size, new_map.y_size, flag)
@@ -30,4 +30,4 @@ def generator(params, flag):
     df = schedule.out_block(stockyard_list, insert_block, total_insert_num, params[6])
     df.fillna(value=0)
 
-    return new_map, df, flag
+    return new_map, df

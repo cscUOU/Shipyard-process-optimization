@@ -25,6 +25,7 @@ class Map:
         else:
             self.y_size = random.randint(min_size, max_size)
 
+        print(self.x_size, self.y_size)
         self.map = np.zeros((self.x_size, self.y_size))
         self.map = self.map.T
         self.num_map = None

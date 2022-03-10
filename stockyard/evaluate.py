@@ -1,5 +1,5 @@
-from stockyard.method import inout_random
-from stockyard.util import maze, check_maze
+from method import inout_random
+from util import maze, check_maze
 import copy
 import math
 import pandas as pd
