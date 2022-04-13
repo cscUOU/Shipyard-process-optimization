@@ -2,17 +2,19 @@ import time, datetime
 import copy
 import numpy as np
 from global_var import init_position, work_stime, work_etime, load_time, unload_time
+import inspect
 
 
 class Transporter:
-    def __init__(self, no, size, availble_weight, w_speed, e_speed, t_speed, graph, color, task=None, total_data=None, total_time=None, total_distance=None):
+    def __init__(self, no, size, availble_weight, w_speed, e_speed, t_speed, graph, color, task=None, total_data=None,
+                 total_time=None, total_distance=None):
         self.no = no
-        self.size = size                    # 트랜스포터 크기
-        self.a_w = availble_weight    # 트랜스포터 가용 무게
-        self.w_s = w_speed                  # 작업 속도
-        self.e_s = e_speed                  # 공차 속도
-        self.t_s = t_speed                  # 회전 속도
-        self.task = []                      # 할당된 작업 목록
+        self.size = size  # 트랜스포터 크기
+        self.a_w = availble_weight  # 트랜스포터 가용 무게
+        self.w_s = w_speed  # 작업 속도
+        self.e_s = e_speed  # 공차 속도
+        self.t_s = t_speed  # 회전 속도
+        self.task = []  # 할당된 작업 목록
         self.total_time = 0
         self.total_distance = 0
         self.total_data = []  # 각 작업별 정보
@@ -30,11 +32,12 @@ class Transporter:
         # self.total_data의 길이는 작업 수만큼이고 각 작업 리스트 별 (출발 시각, 도착 시각, 출발 노드, 도착 노드, 사용 도로, 속도, 상태)의 원소가 있음
 
         self.simul_task = 0  # 시뮬레이션 용 작업 인덱스
-        self.simul_i = 0     # 시뮬레이션 용
+        self.simul_i = 0  # 시뮬레이션 용
 
     def __deepcopy__(self, memodict={}):
         task, total_data = self.task.copy(), self.total_data.copy()
-        trans = Transporter(self.no, self.size, self.a_w, self.w_s, self.e_s, self.t_s, self.graph, self.color, task=task, total_time= self.total_time, total_distance=self.total_distance)
+        trans = Transporter(self.no, self.size, self.a_w, self.w_s, self.e_s, self.t_s, self.graph, self.color,
+                            task=task, total_time=self.total_time, total_distance=self.total_distance)
         return trans
 
     def undertake_task(self, empty_time, work_time, task=None, position=None, random_flag=False, base_flag=False):
@@ -63,7 +66,7 @@ class Transporter:
                 if i == 0:
                     e_t += empty_time[self.e_s][-1][no]
                 else:
-                    e_t += empty_time[self.e_s][self.task[i-1].task_no()][no]
+                    e_t += empty_time[self.e_s][self.task[i - 1].task_no()][no]
 
             e_t += empty_time[self.e_s][no][no]
 
@@ -78,18 +81,18 @@ class Transporter:
         if task_index == 0:
             pre = empty_time[self.e_s][-1][no]
         else:
-            pre = empty_time[self.e_s][self.task[task_index-1].task_no()][no]
+            pre = empty_time[self.e_s][self.task[task_index - 1].task_no()][no]
         if task_index == len(self.task) - 1:
             next = empty_time[self.e_s][no][no]
         else:
-            next = empty_time[self.e_s][no][self.task[task_index+1].task_no()]
+            next = empty_time[self.e_s][no][self.task[task_index + 1].task_no()]
 
         if work_flag:
             work = work_time[self.w_s][no]
 
         result = pre + next + work
         return result
-    
+
     # 특정 작업의 앞뒤 작업 간 공차 거리
     def task_other_time(self, empty_time, task):
         no = task.task_no()
@@ -98,12 +101,12 @@ class Transporter:
         if task_index == 0:
             pre = -1
         else:
-            pre = self.task[task_index-1].task_no()
+            pre = self.task[task_index - 1].task_no()
 
         if task_index == len(self.task) - 1:
             next = no
         else:
-            next = self.task[task_index+1].task_no()
+            next = self.task[task_index + 1].task_no()
 
         result = 0
         # 작업 X인 경우
@@ -129,7 +132,7 @@ class Transporter:
             if i == 0:
                 e_t += empty_time[self.e_s][-1][no]
             else:
-                e_t += empty_time[self.e_s][self.task[i-1].task_no()][no]
+                e_t += empty_time[self.e_s][self.task[i - 1].task_no()][no]
 
         e_t += empty_time[self.e_s][no][no]
         self.total_time = w_t + e_t
@@ -176,7 +179,8 @@ class Transporter:
             else:
                 e_d = self.graph.distance_node(0, pre, task.start_p())
             w_d = self.graph.distance_node(0, task.start_p(), task.dest_p())
-            pre = task.start_p()
+            # pre = task.start_p() (수정)
+            pre = task.dest_p()
             self.total_distance = self.total_distance + w_d + e_d
 
         e_d = self.graph.distance_node(0, pre, init_position)
@@ -203,8 +207,8 @@ class Transporter:
                 e_t += empty_t[-1][task_no]
                 a_t += empty_t[-1][self.task[i].task_no()]
             else:
-                e_t += empty_t[self.task[i-1].task_no()][task_no]
-                a_t += empty_t[self.task[i-1].task_no()][self.task[i].task_no()]
+                e_t += empty_t[self.task[i - 1].task_no()][task_no]
+                a_t += empty_t[self.task[i - 1].task_no()][self.task[i].task_no()]
 
             if i == len(self.task) - 1:
                 e_t += empty_t[task_no][task_no]
@@ -367,13 +371,13 @@ class Trans_manager:
 
     def __init__(self, t_list=None):
         if t_list is None:
-            self.t_list = []
+            self.transporter_list = []
         else:
-            self.t_list = t_list
+            self.transporter_list = t_list
 
     def __repr__(self):
         genestr = "-------------------------- Trans --------------------------\n"
-        for t in self.t_list:
+        for t in self.transporter_list:
             genestr += "{}({})\t:".format(t.no, t.a_w)
             task_list = t.task
             if len(task_list) == 0:
@@ -390,27 +394,27 @@ class Trans_manager:
 
     def __deepcopy__(self, memodict={}):
         t_list = []
-        for t in self.t_list:
-            t = copy.deepcopy(t)    # t.__deepcopy__()도 가능
+        for t in self.transporter_list:
+            t = copy.deepcopy(t)  # t.__deepcopy__()도 가능
             t_list.append(t)
 
         trans_manager = Trans_manager(t_list=t_list)
         return trans_manager
 
     def add_trans(self, trans):
-        self.t_list.append(trans)
+        self.transporter_list.append(trans)
 
     # 모든 트랜스포터 작업 초기화
     def pop_trans_task(self):
-        for trans in self.t_list:
+        for trans in self.transporter_list:
             trans.reset_data()
 
     def numoftrans(self):
-        return len(self.t_list)
+        return len(self.transporter_list)
 
     # 트랜스포터 얻기
     def get_trans(self, trans):
-        for t in self.t_list:
+        for t in self.transporter_list:
             if trans.no == t.no:
                 return t
         return None
@@ -421,8 +425,9 @@ class Trans_manager:
         empty_distance = 0
         work, empty, total_time = 0, 0, 0
         count = 0
-        for trans in self.t_list:
-            count+=1
+        idx = 0
+        for trans in self.transporter_list:
+            count += 1
             w_t, e_t = trans.cal_time(work_time, empty_time)
             trans.cal_distance()
             empty_distance += trans.total_distance
@@ -432,4 +437,24 @@ class Trans_manager:
                 empty += e_t
                 total_time += trans.total_time
 
-        return num, work, empty, total_time, empty_distance
+        ret_trans_no = []
+        ret_task_list = []
+        ret_genestr = ''
+        for trans in self.transporter_list:
+            genestr = ''
+            genestr += "{} ({})\t:".format(trans.no, len(trans.task))
+            task_list = trans.task
+            if not len(task_list):
+                continue
+
+            node_list = []
+            for i, task in enumerate(task_list):
+                if i != len(task_list) - 1:
+                    node_list.append([task.start_p(), task.dest_p()])
+                    genestr += " ({}, {}) ->".format(task.start_p(), task.dest_p())
+            node_list.append([task_list[-1].start_p(), task_list[-1].dest_p()])
+            genestr += " ({}, {})\n".format(task_list[-1].start_p(), task_list[-1].dest_p())
+            ret_genestr += genestr
+            ret_task_list.append(node_list)
+            ret_trans_no.append(trans.no)
+        return num, work, empty, total_time, empty_distance, ret_task_list, ret_trans_no, ret_genestr

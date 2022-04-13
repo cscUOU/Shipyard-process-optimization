@@ -8,7 +8,8 @@ def transporter_data(trans_num, trans_manager, graph):
     fileObj = Path(fileName)
 
     if not fileObj.is_file():
-        trans_df = pd.read_excel(r"C:\Users\HyunWoo\PycharmProjects\Transporter_Schedule\\transporter_list.xlsx")
+
+        trans_df = pd.read_excel(r"transporter_list.xlsx")
 
         trans_data = zip(trans_df['size'], trans_df['availble_weight'], trans_df['work_speed'], trans_df['empty_speed'], trans_df['turn_speed'])
         trans_execl = pd.DataFrame(
@@ -46,7 +47,7 @@ def transporter_data(trans_num, trans_manager, graph):
             else:
                 p = 7
             model, size, a_w, w_s, e_s, t_s = trans_df.loc[p]
-            print(size, type(size), type(w_s), type(a_w))
+            # print(size, type(size), type(w_s), type(a_w))
             w_s, e_s, t_s = trans_mpers(w_s, e_s, t_s)
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             trans_manager.add_trans(Transporter(no, size, a_w, w_s, e_s, t_s, graph, color))
@@ -68,10 +69,13 @@ def transporter_data(trans_num, trans_manager, graph):
         trans_execl.to_excel(fileName)
 
     else:
+        # else문 실행
+
         trans_df = pd.read_excel(r".\Data\transporter_data.xlsx")
 
         for i in range(len(trans_df)):
-            print("trans_df.loc[i]: ", trans_df.loc[i])
+
+            # print("trans_df.loc[]: ", trans_df.loc[i])
             no, size, a_w, w_s, e_s, t_s = trans_df[['no', 'size', 'available_weight', 'work_speed', 'empty_speed', 'turn_speed']].loc[i]
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             trans_manager.add_trans(Transporter(no, size, a_w, w_s, e_s, t_s, graph, color))
