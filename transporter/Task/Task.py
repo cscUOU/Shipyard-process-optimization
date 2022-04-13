@@ -54,10 +54,13 @@ class Task_schedule:
             for i in range(len(trans_df)):
                 no, x, y, w, s_no, e_no = trans_df[['block_no', 'b_x', 'b_y', 'b_w', 's_n', 'e_n']].loc[i]
                 b = Block(no, x, y, w)
+                # d = graph.distance_node(0, s_no, e_no)
+                # print(s_no, e_no, d)
                 s_no = self.graph.node(s_no)    # 시작 노드 클래스
                 e_no = self.graph.node(e_no)    # 끝 노드 클래스
                 self.task_list.append(Task(b, s_no, e_no))
         self.task_list.sort(key=lambda x: x.weight(), reverse=True)
+
 
     def __repr__(self):
         genestr = "-------------------------- Task --------------------------\n"
@@ -110,8 +113,10 @@ class Task_schedule:
 
     # 작업 출발지와 도착지 생성기
     def generate_node(self):
-        start = random.randint(0, len(self.graph.stock_list)-1)
-        end = random.randint(0, len(self.graph.stock_list)-1)
+        # start = random.randint(0, len(self.graph.stock_list)-1)
+        # end = random.randint(0, len(self.graph.stock_list)-1)
+        start = random.randint(0, 20)
+        end = random.randint(0, 20)
         # 출발지와 도착지가 같으면 안됨
         while True:
             if end == start:
@@ -161,9 +166,16 @@ class Task_schedule:
 
 
 def task_classification(task_list, trans_list, graph):
+
+    # task_list -> task -> b(block), s_n, e_n
+    # 출발, 도착 적치 장 클래스??
+
     empty_speed = []
     work_speed = []
+
     # 트랜스포터들의 공차 속도에 따른 작업 관계를 위해 추출
+    # 적재 o, 적재 x 속도 리스트
+
     for i in trans_list:
         if i.e_s not in empty_speed:
             empty_speed.append(i.e_s)
@@ -188,8 +200,12 @@ def task_matrix(t_list, empty_speed, work_speed, graph):
             s_node = node.start_p()
             d_node = node.dest_p()
             d = graph.distance_node(0, s_node, d_node)  # 거리
+            # print(s_node, d_node, d)
+            # speed로 i번째 작업 걸리는 시간
             work_time[i] = d//speed + load_time + unload_time
+        # 속도들에 대해 (0~i번째) 작업 시간
         task_work[speed] = work_time
+
 
     # 작업간 이동 시간
     task_distance_matrix = {}

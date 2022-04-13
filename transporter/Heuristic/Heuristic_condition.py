@@ -1,6 +1,6 @@
 import numpy as np
 import random, copy, traceback
-
+import inspect
 from global_var import work_stime, work_etime, cross_num, mutation
 
 
@@ -188,13 +188,21 @@ class H3:
         self.task_list = task_list
         self.pass_task = []
 
+    # dir(pop)
+    # ['__class__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__',
+    #  '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__',
+    #  '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__',
+    #  '__subclasshook__', '__weakref__', 'compatition', 'empty_time', 'getfittest', 'getschedule', 'getuse_trans',
+    #  'populationsize', 'reset', 'saveschedule', 'schedules', 'work_time']
+
+
     def create_gen(self, pop):
         pop.schedules = pop.compatition(distance_flag=True)
         new_pop = copy.deepcopy(pop)
         new_pop.reset()
 
         for i in range(cross_num):
-            parent_1 = pop[i]
+            parent_1 = pop[i]           # 오류
 
             sub_iter = cross_num - i - 1
             for j in range(sub_iter):
@@ -204,8 +212,8 @@ class H3:
 
     # 계산
     def calcul_gen(self, p1, p2):
-        p1_trans = p1.trans_m.t_list
-        p2_trans = p2.trans_m.t_list
+        p1_trans = p1.trans_m.transporter_list
+        p2_trans = p2.trans_m.transporter_list
 
         p1_task_et = {}
         p2_task_et = {}
