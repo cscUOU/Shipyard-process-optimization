@@ -155,7 +155,7 @@ temp_f = base_pop.getfitness(work_time=task_work_time, empty_time=task_empty_tim
 <div align="center">
 <p>
    <a align="left" href="https://cscuou.github.io/" target="_blank">
-   <img width="150" src="https://github.com/cscUOU/Shipyard-process-logistics/blob/main/images/shipyard3.png"></a>
+   <img width="150" src="https://github.com/cscUOU/Shipyard-process-optimization/blob/main/images/shipyard3.png"></a>
 </p>
 </div>
 
